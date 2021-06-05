@@ -133,8 +133,9 @@ GameObject:
   m_Component:
   - component: {fileID: 227180338}
   - component: {fileID: 227180337}
+  - component: {fileID: 227180339}
   m_Layer: 0
-  m_Name: DebugControls
+  m_Name: NewInputDebugControls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -167,10 +168,11 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 410317967}
-        m_TargetAssemblyTypeName: DebugConsole, Assembly-CSharp
-        m_MethodName: OnToggleDebugConsole
-        m_Mode: 1
+      - m_Target: {fileID: 227180339}
+        m_TargetAssemblyTypeName: Chindianese.DebugConsole.Example.NewInputOpenConsole,
+          Assembly-CSharp
+        m_MethodName: OnToggleConsole
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -181,6 +183,23 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: e68907db-427e-4be6-8910-8df7ca148adc
     m_ActionName: DebugConsole/ToggleConsole[/Keyboard/backquote]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 227180339}
+        m_TargetAssemblyTypeName: Chindianese.DebugConsole.Example.NewInputOpenConsole,
+          Assembly-CSharp
+        m_MethodName: OnReturn
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: c77cee09-65c0-4077-817c-a328fd49373c
+    m_ActionName: DebugConsole/HandleInput[/Keyboard/enter]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: DebugConsole
@@ -200,6 +219,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &227180339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 227180336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2170dd53a1f5754cb78b25bdf4aec08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debugConsole: {fileID: 410317967}
 --- !u!1 &410317966
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,11 +9,12 @@ namespace Chindianese.DebugConsole
         private bool consoleVisible = false;
         string input = "";
         private bool scrollToBottom = false;
+        private Vector2 scroll;
         //
         public static DebugCommand<string> LOG;
         public List<DebugCommandBase> commandList;
         //
-        private List<string> logs = new List<string>(); 
+        private List<string> logs = new List<string>();
 
         private void Awake()
         {
@@ -30,6 +31,8 @@ namespace Chindianese.DebugConsole
         #region UserInput
         public void OnToggleDebugConsole()
         {
+            Debug.Log("Toggle console");
+          
             consoleVisible = !consoleVisible;
             if (consoleVisible)
                 ShowConsole();
@@ -46,6 +49,7 @@ namespace Chindianese.DebugConsole
         }
         public void OnReturn()
         {
+            Debug.Log("Handle Input");
             if (consoleVisible)
             {
                 HandleInput();
@@ -53,14 +57,14 @@ namespace Chindianese.DebugConsole
             }
         }
         #endregion
-        private Vector2 scroll;
+
         private void OnGUI()
         {
             if (!consoleVisible) return;
             float logViewHeightMax = 60;
             float logHeight = 20f;
-            float logViewBuffer  = 10.0f;
-            float logViewHeight = Mathf.Min(logHeight * logs.Count + logViewBuffer, logViewHeightMax );
+            float logViewBuffer = 10.0f;
+            float logViewHeight = Mathf.Min(logHeight * logs.Count + logViewBuffer, logViewHeightMax);
             float y = 0f;
             {
                 if (logs.Count > 0)
@@ -77,7 +81,7 @@ namespace Chindianese.DebugConsole
                     }
                     if (scrollToBottom)
                     {
-                        GUI.ScrollTo(new Rect(0, logHeight * logs.Count, 0,0));
+                        GUI.ScrollTo(new Rect(0, logHeight * logs.Count, 0, 0));
                         scrollToBottom = false;
                     }
                     GUI.EndScrollView();
@@ -93,21 +97,40 @@ namespace Chindianese.DebugConsole
 
         private void HandleInput()
         {
-            string[] properties = input.Split(' ');
-
+            List<string> properties = new List<string>(input.Split(' '));
+            properties.RemoveAll(x => x == "");
             DebugCommandBase command = commandList.Find(x => x.commandID == properties[0]); // case sensitive
             if (command == null)
                 return;
             System.Type paramType = command.Type;
-            switch (paramType.Name)
+            if (paramType != null)
             {
-                case "String":
-                    (command as DebugCommand<string>).Invoke(properties[1]);
-                    break;
+                if (properties.Count < 2)
+                {
+                    Error_NullParameter();
+                    return;
+                }
+                switch (paramType.Name)
+                {
+                    case "String":
+                        (command as DebugCommand<string>).Invoke(properties[1]);
+                        break;
+                }
             }
-            return;
-
-
+            else
+            {
+                (command as DebugCommand).Invoke();
+            }
         }
+        private void PrintToConsole(string value)
+        {
+            logs.Add(value);
+        }
+        #region ERROR_HANDLING
+        private void Error_NullParameter()
+        {
+            PrintToConsole("No parameter provided.");
+        }
+        #endregion
     }
 }
