@@ -6,6 +6,14 @@ namespace Chindianese.DebugConsole
 {
     public class DebugConsole : MonoBehaviour
     {
+        //
+        [Header("Console Values")]
+        [SerializeField]
+        private float logViewHeightMax = 60;
+        [SerializeField]
+        [Min(1)]
+        private int fontSize = 15;
+        //
         private bool consoleVisible = false;
         string input = "";
         private bool scrollToBottom = false;
@@ -61,9 +69,9 @@ namespace Chindianese.DebugConsole
         private void OnGUI()
         {
             if (!consoleVisible) return;
-            float logViewHeightMax = 60;
-            float logHeight = 20f;
-            float logViewBuffer = 10.0f;
+          
+            float logHeight = fontSize * 1.5f;
+            float logViewBuffer = 5f;
             float logViewHeight = Mathf.Min(logHeight * logs.Count + logViewBuffer, logViewHeightMax);
             float y = 0f;
             {
@@ -75,6 +83,7 @@ namespace Chindianese.DebugConsole
                     int index = 0;
                     foreach (var log in logs)
                     {
+                        GUI.skin.label.fontSize = fontSize;
                         Rect labelRect = new Rect(5, logHeight * index, viewport.width - 100, logHeight);
                         GUI.Label(labelRect, logs[index]);
                         index++;

@@ -261,6 +261,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc52679da6144b347916e2014df3cc91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  logViewHeightMax: 60
+  fontSize: 15
 --- !u!4 &410317968
 Transform:
   m_ObjectHideFlags: 0
