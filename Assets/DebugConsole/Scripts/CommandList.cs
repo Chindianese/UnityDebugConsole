@@ -15,12 +15,24 @@ namespace Chindianese.DebugConsole
         public void Awake()
         {
             commandList = new List<DebugCommandBase>();
-            var LOG = new DebugCommand<string>("log", "Logs string to unity console", "log", (val) =>
+            //------------
+            var HELP = new DebugCommand("help", "Print all commands", "help", () =>
+            {
+                foreach (var command in commandList)
+                {
+                    console.PrintToConsole($"{command.commandFormat} - {command.commandDescription} ");
+                }
+            });
+            commandList.Add(HELP);
+            var LOG = new DebugCommand<string>("log", "Prints string to debug and unity console", "log <val>", (val) =>
             {
                 Debug.Log(val);
                 console.PrintToConsole(val);              
             });
             commandList.Add(LOG);
+
+
+
         }
         public DebugCommandBase GetCommand(string commandID)
         {
