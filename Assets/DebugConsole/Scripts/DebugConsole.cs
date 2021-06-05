@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Chindianese.DebugConsole
 {
+    [RequireComponent(typeof(CommandList))]
     public class DebugConsole : MonoBehaviour
     {
         //
@@ -13,28 +14,17 @@ namespace Chindianese.DebugConsole
         [SerializeField]
         [Min(1)]
         private int fontSize = 15;
-        //
+        // GUI Variables
         private bool consoleVisible = false;
         string input = "";
         private bool scrollToBottom = false;
         private Vector2 scroll;
-        //
-        public static DebugCommand<string> LOG;
-        public List<DebugCommandBase> commandList;
-        //
         private List<string> logs = new List<string>();
-
+        // commands
+        private CommandList commandList = null;
         private void Awake()
         {
-            commandList = new List<DebugCommandBase>();
-            LOG = new DebugCommand<string>("log", "Logs string to unity console", "log", (val) =>
-            {
-                Debug.Log(val);
-                logs.Add(val);
-                scrollToBottom = true;
-            });
-
-            commandList.Add(LOG);
+            commandList = GetComponent<CommandList>(); // required component
         }
         #region UserInput
         public void OnToggleDebugConsole()
@@ -65,7 +55,6 @@ namespace Chindianese.DebugConsole
             }
         }
         #endregion
-
         private void OnGUI()
         {
             if (!consoleVisible) return;
@@ -103,12 +92,11 @@ namespace Chindianese.DebugConsole
             input = GUI.TextField(new Rect(10f, y + 5f, Screen.width - 20f, 20f), input);
             GUI.FocusControl("debugTextField");
         }
-
         private void HandleInput()
         {
             List<string> properties = new List<string>(input.Split(' '));
             properties.RemoveAll(x => x == "");
-            DebugCommandBase command = commandList.Find(x => x.commandID == properties[0]); // case sensitive
+            DebugCommandBase command = commandList.GetCommand(properties[0]); // case sensitive
             if (command == null)
                 return;
             System.Type paramType = command.Type;
@@ -131,9 +119,10 @@ namespace Chindianese.DebugConsole
                 (command as DebugCommand).Invoke();
             }
         }
-        private void PrintToConsole(string value)
+        public void PrintToConsole(string value)
         {
             logs.Add(value);
+            scrollToBottom = true;
         }
         #region ERROR_HANDLING
         private void Error_NullParameter()
