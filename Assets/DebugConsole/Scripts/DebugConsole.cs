@@ -112,6 +112,13 @@ namespace Chindianese.DebugConsole
                     case "String":
                         (command as DebugCommand<string>).Invoke(properties[1]);
                         break;
+                    case "Int32":
+                        (command as DebugCommand<int>).Invoke(int.Parse(properties[1]));
+                        break;
+                    case "Single":
+                        properties[1].Remove('f');
+                        (command as DebugCommand<float>).Invoke(float.Parse(properties[1]));
+                        break;
                 }
             }
             else

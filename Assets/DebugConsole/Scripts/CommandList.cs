@@ -31,7 +31,16 @@ namespace Chindianese.DebugConsole
             });
             commandList.Add(LOG);
 
-
+            var intTest = new DebugCommand<int>("intTest", "Prints int to console", "intTest <int>", (val) =>
+            {
+                console.PrintToConsole("int: " + val);
+            });
+            commandList.Add(intTest);
+            var floatTest = new DebugCommand<float>("floatTest", "Prints float to console", "log <float>", (val) =>
+            {
+                console.PrintToConsole("float: " + val);
+            });
+            commandList.Add(floatTest);
 
         }
         public DebugCommandBase GetCommand(string commandID)
