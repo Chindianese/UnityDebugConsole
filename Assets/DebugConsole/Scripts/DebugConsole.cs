@@ -113,11 +113,23 @@ namespace Chindianese.DebugConsole
                         (command as DebugCommand<string>).Invoke(properties[1]);
                         break;
                     case "Int32":
-                        (command as DebugCommand<int>).Invoke(int.Parse(properties[1]));
-                        break;
+                        {
+                            int result;
+                            if (int.TryParse(properties[1], out result))
+                                (command as DebugCommand<int>).Invoke(int.Parse(properties[1]));
+                            else
+                                Error_InvalidParameter();
+                        }
+                            break;
                     case "Single":
-                        properties[1].Remove('f');
-                        (command as DebugCommand<float>).Invoke(float.Parse(properties[1]));
+                        {
+                            properties[1] = properties[1].Replace("f", string.Empty);
+                            float result;
+                            if (float.TryParse(properties[1], out result))
+                                (command as DebugCommand<float>).Invoke(result);
+                            else
+                                Error_InvalidParameter();
+                        }
                         break;
                 }
             }
@@ -135,6 +147,10 @@ namespace Chindianese.DebugConsole
         private void Error_NullParameter()
         {
             PrintToConsole("No parameter provided.");
+        }
+        private void Error_InvalidParameter()
+        {
+            PrintToConsole("Invalid parameter.");
         }
         #endregion
     }
