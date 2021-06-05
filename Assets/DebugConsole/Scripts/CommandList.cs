@@ -4,16 +4,16 @@ using UnityEngine;
 
 namespace Chindianese.DebugConsole
 {
+    [RequireComponent(typeof(DebugConsole))]
     public class CommandList : MonoBehaviour
     {
-        [Header("References")]
-        [SerializeField]
         private DebugConsole console = null;
         //
         public List<DebugCommandBase> commandList;
 
         public void Awake()
         {
+            console = GetComponent<DebugConsole>();
             commandList = new List<DebugCommandBase>();
             //------------
             var HELP = new DebugCommand("help", "Print all commands", "help", () =>
