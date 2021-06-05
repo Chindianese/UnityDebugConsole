@@ -4,24 +4,30 @@ using UnityEngine;
 
 namespace Chindianese.DebugConsole
 {
+    /// <Author>Tay Hao Cheng</Author>
+    /// <summary>
+    /// Handles invoking of commands and rendering of console
+    /// </summary>
     [RequireComponent(typeof(CommandList))]
     public class DebugConsole : MonoBehaviour
     {
         //
         [Header("Console Values")]
         [SerializeField]
+        [Tooltip("Max height console can expand to")]
         private float logViewHeightMax = 60;
         [SerializeField]
         [Min(1)]
+        [Tooltip("Font size of console logs")]
         private int fontSize = 15;
         // GUI Variables
         private bool consoleVisible = false;
         string input = "";
         private bool scrollToBottom = false;
         private Vector2 scroll;
-        private List<string> logs = new List<string>();
-        // commands
-        private CommandList commandList = null;
+        private List<string> logs = new List<string>(); // List for holding console logs
+        // references
+        private CommandList commandList = null; // CommandList Monobehaviour
         private void Awake()
         {
             commandList = GetComponent<CommandList>(); // required component
@@ -30,7 +36,7 @@ namespace Chindianese.DebugConsole
         public void OnToggleDebugConsole()
         {
             Debug.Log("Toggle console");
-          
+
             consoleVisible = !consoleVisible;
             if (consoleVisible)
                 ShowConsole();
@@ -58,7 +64,7 @@ namespace Chindianese.DebugConsole
         private void OnGUI()
         {
             if (!consoleVisible) return;
-          
+
             float logHeight = fontSize * 1.5f;
             float logViewBuffer = 5f;
             float logViewHeight = Mathf.Min(logHeight * logs.Count + logViewBuffer, logViewHeightMax);
@@ -100,6 +106,7 @@ namespace Chindianese.DebugConsole
             if (command == null)
                 return;
             System.Type paramType = command.Type;
+            // TODO: Support multiple paremeters
             if (paramType != null)
             {
                 if (properties.Count < 2)
@@ -120,7 +127,7 @@ namespace Chindianese.DebugConsole
                             else
                                 Error_InvalidParameter();
                         }
-                            break;
+                        break;
                     case "Single":
                         {
                             properties[1] = properties[1].Replace("f", string.Empty);

@@ -6,6 +6,10 @@ using UnityEngine;
 
 namespace Chindianese.DebugConsole
 {
+    /// <author>Tay Hao Cheng</author>
+    /// <summary>
+    /// Contains string infomation for commands
+    /// </summary>
     public class DebugCommandBase
     {
         public string commandID { get; private set; }
@@ -20,13 +24,15 @@ namespace Chindianese.DebugConsole
             this.commandFormat = commandFormat;
         }
     }
-
+    /// <summary>
+    /// Contains action for command callbacks
+    /// </summary>
     public class DebugCommand : DebugCommandBase
     {
         private System.Action command;
 
-        public DebugCommand(string commandID, string commandDescription, string commandFormat, 
-            Action command) : base (commandID, commandDescription, commandFormat)
+        public DebugCommand(string commandID, string commandDescription, string commandFormat,
+            Action command) : base(commandID, commandDescription, commandFormat)
         {
             this.command = command;
 
@@ -37,6 +43,10 @@ namespace Chindianese.DebugConsole
             command.Invoke();
         }
     }
+    /// <summary>
+    /// Support single parameter
+    /// </summary>
+    /// <typeparam name="T1">Template type for parameters</typeparam>
     public class DebugCommand<T1> : DebugCommandBase
     {
         private System.Action<T1> command;
@@ -53,4 +63,5 @@ namespace Chindianese.DebugConsole
             command.Invoke(value);
         }
     }
+    // TODO: Support multiplate parameters
 }

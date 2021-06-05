@@ -4,6 +4,10 @@ using UnityEngine;
 
 namespace Chindianese.DebugConsole
 {
+    /// <Author>Tay Hao Cheng</Author>
+    /// <summary>
+    /// Define commands here. Add any gameobject or component references required for commands
+    /// </summary> 
     [RequireComponent(typeof(DebugConsole))]
     public class CommandList : MonoBehaviour
     {
@@ -11,6 +15,9 @@ namespace Chindianese.DebugConsole
         //
         public List<DebugCommandBase> commandList;
 
+        /// <summary>
+        /// Initialise / create commands
+        /// </summary>
         public void Awake()
         {
             console = GetComponent<DebugConsole>();
@@ -27,7 +34,7 @@ namespace Chindianese.DebugConsole
             var LOG = new DebugCommand<string>("log", "Prints string to debug and unity console", "log <val>", (val) =>
             {
                 Debug.Log(val);
-                console.PrintToConsole(val);              
+                console.PrintToConsole(val);
             });
             commandList.Add(LOG);
 
@@ -43,6 +50,11 @@ namespace Chindianese.DebugConsole
             commandList.Add(floatTest);
 
         }
+        /// <summary>
+        /// Search and return command. 
+        /// </summary>
+        /// <param name="commandID"></param>
+        /// <returns>Return null if not found</returns>
         public DebugCommandBase GetCommand(string commandID)
         {
             return commandList.Find(x => x.commandID == commandID);

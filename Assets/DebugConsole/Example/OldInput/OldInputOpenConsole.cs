@@ -4,20 +4,23 @@ using UnityEngine;
 
 namespace Chindianese.DebugConsole.Example
 {
-    public class NewInputOpenConsole : MonoBehaviour
+    /// <Author>Tay Hao Cheng</Author>
+    /// <summary>
+    /// Uses old input system to open console. Untested.
+    /// </summary> 
+    public class OldInputOpenConsole : MonoBehaviour
     {
         [SerializeField]
         private DebugConsole debugConsole = null;
 
-        public void OnToggleConsole(UnityEngine.InputSystem.InputAction.CallbackContext value)
+
+        private void Update()
         {
-            if (value.performed)
+            if (Input.GetKeyUp(KeyCode.Tilde))
                 debugConsole.OnToggleDebugConsole();
-        }
-        public void OnReturn(UnityEngine.InputSystem.InputAction.CallbackContext value)
-        {
-            if (value.performed)
+            if (Input.GetKeyUp(KeyCode.Return))
                 debugConsole.OnReturn();
         }
+
     }
 }
